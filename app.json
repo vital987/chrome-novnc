@@ -1,0 +1,40 @@
+{
+   "name":"Chromium-NoVNC",
+   "description":"Chromium via NoVNC",
+   "repository":"https://github.com/vital987/chromium-novnc.git",
+   "logo":"https://upload.wikimedia.org/wikipedia/commons/thumb/a/a5/Google_Chrome_icon_%28September_2014%29.svg/2048px-Google_Chrome_icon_%28September_2014%29.svg.png",
+   "keywords":[
+      "docker",
+      "chrome",
+      "heroku",
+      "novnc",
+      "vnc",
+      "firefox"
+   ],
+   "stack":"container",
+   "env":{
+      "APP_NAME":{
+         "description":"Name of the app, same as mentioned above.",
+         "required":true
+      },
+      "VNC_TITLE":{
+         "description":"VNC Session Title, w/o spaces.",
+         "value":"Chromium",
+         "required":true
+      },
+      "VNC_PASS":{
+         "description":"VNC server password w/o spaces.",
+         "required":true
+      },
+      "VNC_RESOLUTION":{
+         "description":"VNC Server Resolution in WxH, 720p is preferrable.",
+         "value":"1280x720",
+         "required":true
+      },
+      "NO_SLEEP":{
+         "description":"Prevent app from sleeping, 1=on, 0=off",
+         "value":"0",
+         "required":true
+      }
+   }
+}
