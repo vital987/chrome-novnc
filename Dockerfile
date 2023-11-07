@@ -2,7 +2,7 @@ FROM ubuntu:22.04
 
 LABEL AboutImage "Ubuntu22.04_Chromium_NoVNC"
 
-LABEL Maintainer "Apoorv Vyavahare <apoorvvyavahare@pm.me>"
+LABEL Maintainer "furacas <s@furacas.com>"
 
 ARG DEBIAN_FRONTEND=noninteractive
 
