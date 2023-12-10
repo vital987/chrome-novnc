@@ -1,12 +1,20 @@
 # Chromium with NoVNC
 
+## Warning
+This project runs Chromium directly as the root user without sandboxing. Avoid deploying it in production environments.
+
+## Heroku installation
 [![Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vital987/chrome-novnc)
 
+## Manual installation
+```bash
+docker run \
+    --name chrome-novnc \
+    -e PORT=9870 \
+    -p 9870:9870 \
+    -e VNC_PASS=TestPass987 \
+    vital987/chrome-novnc:latest
 ```
-docker run --name chrome-novnc -e PORT=9870 -p 9870:9870 -e VNC_PASS=samplepass vital987/chrome-novnc:latest
-```
-
-<p><b><h3>[ ! ] This project runs directly as a root user with non-sandboxed chromium! <br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;do not use in production environments.</h3></b></p>
 
 ## Environment variables: 
 |      PORT      |                NoVNC HTTPS Port (Default: 9870)                |
