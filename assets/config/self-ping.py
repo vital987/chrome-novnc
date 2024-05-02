@@ -7,7 +7,7 @@ except:
     import requests
 from time import sleep
 if __name__ == "__main__":
-    if os.getenv("NO_SLEEP") == "1":
+    if os.getenv("NO_SLEEP") == "true":
         if "APP_NAME" not in os.environ:
             print("APP_NAME unset, terminating...")
             exit()

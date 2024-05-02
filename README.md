@@ -1,26 +1,29 @@
 # Chromium with NoVNC
 
-## Warning
-This project runs Chromium directly as the root user without sandboxing. Avoid deploying it in production environments.
+## Installation
+- ### Heroku
+    [![Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vital987/chrome-novnc)
 
-## Heroku installation
-[![Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vital987/chrome-novnc)
+- ### Manual
+  - ```sh
+    HOST_PORT=8080 VNC_PASS=CHANGE_IT docker-compose up -d
+    ```
+  - ```sh
+    docker run \
+        --name chrome-novnc \
+        -e PORT=8080 \
+        -p 8080:8080 \
+        -e VNC_PASS=CHANGE_IT \
+        vital987/chrome-novnc:latest
+    ```
 
-## Manual installation
-```bash
-docker run \
-    --name chrome-novnc \
-    -e PORT=9870 \
-    -p 9870:9870 \
-    -e VNC_PASS=TestPass987 \
-    vital987/chrome-novnc:latest
-```
-
-## Environment variables: 
-|      PORT      |                NoVNC HTTPS Port (Default: 9870)                |
-|:--------------:|:--------------------------------------------------------------:|
-|    VNC_PASS    |               VNC Password (Default: samplepass)               |
-|    VNC_TITLE   |              VNC Session Title (Default: Chromium)             |
-| VNC_RESOLUTION |               VNC Resolution (Default: 1280x720)               |
-|    APP_NAME    |                Name of the app (Heroku specific)               |
-|    NO_SLEEP    | Prevent app from sleeping (Heroku specific, default: disabled) |
+## Environment variables:
+|VARIABLE      |DESCRIPTION              |DEFAULT VALUE  |
+|-------------:|:------------------------|:-------------:|
+|VNC_PASS      |VNC Password             |CHANGE_IT      |
+|VNC_TITLE     |VNC Session Title        |Chromium       |
+|VNC_SHARED    |VNC Shared Mode          |false          |
+|VNC_RESOLUTION|VNC Resolution           |1280x720       |
+|PORT          |NoVNC HTTPS Port         |Heroku specific|
+|APP_NAME      |Name of the app          |Heroku specific|
+|NO_SLEEP      |Prevent app from sleeping|Heroku specific|

@@ -1,51 +1,42 @@
-FROM ubuntu:22.04
+FROM alpine:3.19.1
 
-LABEL AboutImage "Ubuntu22.04_Chromium_NoVNC"
+LABEL AboutImage "Alpine_Chromium_NoVNC"
 
-LABEL Maintainer "Apoorv Vyavahare <apoorvvyavahare@pm.me>"
-
-ARG DEBIAN_FRONTEND=noninteractive
+LABEL Maintainer "Apurv Vyavahare <apurvvyavahare@gmail.com>"
 
 #VNC Server Password
-ENV	VNC_PASS="samplepass" \
+ENV	VNC_PASS="CHANGE_IT" \
 #VNC Server Title(w/o spaces)
 	VNC_TITLE="Chromium" \
 #VNC Resolution(720p is preferable)
 	VNC_RESOLUTION="1280x720" \
-#VNC Shared Mode (0=off, 1=on)
-	VNC_SHARED=0 \
+#VNC Shared Mode
+	VNC_SHARED=false \
 #Local Display Server Port
 	DISPLAY=:0 \
 #NoVNC Port
 	NOVNC_PORT=$PORT \
 	PORT=8080 \
+#Heroku No-Sleep Mode
+	NO_SLEEP=false \
 #Locale
 	LANG=en_US.UTF-8 \
 	LANGUAGE=en_US.UTF-8 \
 	LC_ALL=C.UTF-8 \
 	TZ="Asia/Kolkata"
 
-COPY rootfs/ /
+COPY assets/ /
 
-SHELL ["/bin/bash", "-c"]
-
-RUN	apt-get update && \
-	apt-get install -y tzdata ca-certificates supervisor curl wget python3 python3-pip sed unzip xvfb x11vnc websockify openbox libnss3 libgbm-dev libasound2 fonts-droid-fallback && \
-#Chromium
-	wget https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2F1235467%2Fchrome-linux.zip?alt=media -O /tmp/chrome-linux.zip && \
-	unzip /tmp/chrome-linux.zip -d /opt && \
-#noVNC
-	openssl req -new -newkey rsa:4096 -days 36500 -nodes -x509 -subj "/C=IN/ST=Maharastra/L=Private/O=Dis/CN=www.google.com" -keyout /etc/ssl/novnc.key  -out /etc/ssl/novnc.cert && \
-#TimeZone
-	ln -snf /usr/share/zoneinfo/$TZ /etc/localtime && \
+RUN	apk update && \
+	apk add --no-cache tzdata ca-certificates supervisor curl wget openssl bash python3 py3-requests sed unzip xvfb x11vnc websockify openbox chromium nss alsa-lib font-noto && \
+# noVNC SSL certificate
+	openssl req -new -newkey rsa:4096 -days 36500 -nodes -x509 -subj "/C=IN/O=Dis/CN=www.google.com" -keyout /etc/ssl/novnc.key -out /etc/ssl/novnc.cert > /dev/null 2>&1 && \
+# TimeZone
+	cp /usr/share/zoneinfo/$TZ /etc/localtime && \
 	echo $TZ > /etc/timezone && \
-#Wipe Temp Files
-	rm -rf /var/lib/apt/lists/* && \ 
-	apt-get remove -y wget python3-pip unzip && \
-	apt-get -y autoremove && \
-	apt-get clean && \
-	rm -rf /tmp/*
-
+# Wipe Temp Files
+	apk del build-base curl wget unzip tzdata openssl && \
+	rm -rf /var/cache/apk/* /tmp/*
 ENTRYPOINT ["supervisord", "-l", "/var/log/supervisord.log", "-c"]
 
 CMD ["/config/supervisord.conf"]

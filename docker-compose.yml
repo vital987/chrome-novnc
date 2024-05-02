@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  chrome-novnc:
+    container_name: chrome-novnc
+    environment:
+      - VNC_PASS=${VNC_PASS-CHANGE_IT}
+      - VNC_TITLE=${VNC_TITLE-Chromium}
+      - VNC_SHARED=${VNC_SHARED-false}
+      - VNC_RESOLUTION=${VNC_RESOLUTION-1280x720}
+      - PORT=8080
+    image: vital987/chrome-novnc:latest
+    ports:
+      - "${HOST_PORT-8080}:8080/tcp"
+    restart: always
