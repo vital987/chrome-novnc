@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.12.1 - 2024-05-18
+
+### Added
+
+- detach mode to docker command in README.md
+
+### Fixed
+
+- issue [#9](https://github.com/vital987/chrome-novnc/issues/9)
+
 ## 0.12.0 - 2024-05-02
 
 ### Added

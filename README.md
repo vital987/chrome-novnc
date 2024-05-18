@@ -4,17 +4,15 @@
 - ### Heroku
     [![Heroku](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/vital987/chrome-novnc)
 
+
 - ### Manual
-  - ```sh
-    HOST_PORT=8080 VNC_PASS=CHANGE_IT docker-compose up -d
-    ```
-  - ```sh
+    ```sh
     docker run \
         --name chrome-novnc \
         -e PORT=8080 \
         -p 8080:8080 \
         -e VNC_PASS=CHANGE_IT \
-        vital987/chrome-novnc:latest
+        -d vital987/chrome-novnc:latest
     ```
 
 ## Environment variables:
