@@ -27,16 +27,24 @@ ENV	VNC_PASS="CHANGE_IT" \
 
 COPY assets/ /
 
+# Packages
 RUN	apk update && \
-	apk add --no-cache tzdata ca-certificates supervisor curl wget openssl bash python3 py3-requests sed unzip xvfb x11vnc websockify openbox chromium nss alsa-lib font-noto font-noto-cjk && \
+	apk add --no-cache tzdata ca-certificates supervisor curl wget openssl bash python3 py3-requests sed unzip xvfb x11vnc websockify openbox chromium chromium-chromedriver nss alsa-lib font-noto font-noto-cjk && \
 # noVNC SSL certificate
 	openssl req -new -newkey rsa:4096 -days 36500 -nodes -x509 -subj "/C=IN/O=Dis/CN=www.google.com" -keyout /etc/ssl/novnc.key -out /etc/ssl/novnc.cert > /dev/null 2>&1 && \
 # TimeZone
 	cp /usr/share/zoneinfo/$TZ /etc/localtime && \
 	echo $TZ > /etc/timezone && \
+# Selenium Grid
+	apk add --no-cache openjdk11-jre && \
+	wget https://github.com/SeleniumHQ/selenium/releases/download/selenium-4.21.0/selenium-server-4.21.0.jar -O /opt/selenium-server.jar && \	
 # Wipe Temp Files
 	apk del build-base curl wget unzip tzdata openssl && \
 	rm -rf /var/cache/apk/* /tmp/*
+
+EXPOSE ${PORT}
+EXPOSE 4444
+
 ENTRYPOINT ["supervisord", "-l", "/var/log/supervisord.log", "-c"]
 
 CMD ["/config/supervisord.conf"]
