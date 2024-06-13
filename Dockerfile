@@ -5,7 +5,7 @@ LABEL AboutImage "Alpine_Chromium_NoVNC"
 LABEL Maintainer "Apurv Vyavahare <apurvvyavahare@gmail.com>"
 
 #VNC Server Password
-ENV	VNC_PASS="CHANGE_IT" \
+ENV	VNC_PASS="NO_PASSWORD" \
 #VNC Server Title(w/o spaces)
 	VNC_TITLE="Chromium" \
 #VNC Resolution(720p is preferable)
@@ -23,7 +23,7 @@ ENV	VNC_PASS="CHANGE_IT" \
 	LANG=en_US.UTF-8 \
 	LANGUAGE=en_US.UTF-8 \
 	LC_ALL=C.UTF-8 \
-	TZ="Asia/Kolkata"
+	TZ="Asia/Tokyo"
 
 COPY assets/ /
 
